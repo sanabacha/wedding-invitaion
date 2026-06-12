@@ -1,65 +1,452 @@
+"use client";
+
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const weddingDate = new Date("2027-06-20T20:00:00");
+
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+
+      const diff =
+        weddingDate.getTime() -
+        now.getTime();
+
+      if (diff <= 0) return;
+
+      setTimeLeft({
+        days: Math.floor(
+          diff /
+          (1000 * 60 * 60 * 24)
+        ),
+
+        hours: Math.floor(
+          (diff %
+            (1000 *
+              60 *
+              60 *
+              24)) /
+          (1000 * 60 * 60)
+        ),
+
+        minutes: Math.floor(
+          (diff %
+            (1000 *
+              60 *
+              60)) /
+          (1000 * 60)
+        ),
+
+        seconds: Math.floor(
+          (diff %
+            (1000 * 60)) /
+          1000
+        ),
+      });
+    };
+
+    update();
+
+    const timer =
+      setInterval(update, 1000);
+
+    return () =>
+      clearInterval(timer);
+  }, []);
+
+  const scrollTo = (
+    id: string
+  ) => {
+    document
+      .getElementById(id)
+      ?.scrollIntoView({
+        behavior: "smooth",
+      });
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <main className="overflow-x-hidden">
+
+      {/* PAGE 1 */}
+
+      <section className="h-screen">
+
+        <button
+          onClick={() =>
+            scrollTo(
+              "section2"
+            )
+          }
+          className="w-full h-screen"
+        >
+          <Image
+            src="/cover.png"
+            alt=""
+            width={1080}
+            height={1920}
+            priority
+            className="
+              w-full
+              h-screen
+              object-cover
+            "
+          />
+        </button>
+
+      </section>
+
+      {/* PAGE 2 */}
+
+      <motion.section
+        id="section2"
+        className="
+          relative
+          h-screen
+        "
+        initial={{
+          opacity: 0,
+        }}
+        whileInView={{
+          opacity: 1,
+        }}
+        transition={{
+          duration: 1,
+        }}
+      >
+
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+          src="/invitation.png"
+          alt=""
+          width={1080}
+          height={1920}
+          className="
+            w-full
+            h-screen
+            object-cover
+          "
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+
+        <button
+          onClick={() =>
+            scrollTo(
+              "section3"
+            )
+          }
+          className="
+          absolute
+          bottom-8
+          left-1/2
+          -translate-x-1/2
+          text-3xl
+          text-[#b89b5e]
+          animate-bounce
+          "
+        >
+          ♡
+        </button>
+
+      </motion.section>
+
+
+      {/* PAGE 3 */}
+
+      <motion.section
+        id="section3"
+        className="
+        relative
+        h-screen
+        "
+        initial={{
+          opacity: 0,
+          y: 80,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        transition={{
+          duration: 1.2,
+        }}
+      >
+
+        <Image
+          src="/programme.png"
+          alt=""
+          width={1080}
+          height={1920}
+          className="
+          w-full
+          h-screen
+          object-cover
+          "
+        />
+
+        <button
+          onClick={() =>
+            scrollTo(
+              "section4"
+            )
+          }
+          className="
+          absolute
+          bottom-8
+          left-1/2
+          -translate-x-1/2
+          text-3xl
+          text-[#b89b5e]
+          animate-bounce
+          "
+        >
+          ♡
+        </button>
+
+      </motion.section>
+
+
+      {/* PAGE 4 */}
+
+      <section
+        id="section4"
+        className="
+        relative
+        h-screen
+        "
+      >
+
+        <Image
+          src="/countdown-clean.png"
+          alt=""
+          fill
+          className="
+          object-cover
+          "
+        />
+
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 1.2 }}
+          viewport={{ once: true }}
+          className="
+absolute
+inset-0
+flex
+flex-col
+items-center
+text-[#b89b5e]
+"
+        >
+
+          {/* TITRE */}
+
+          <div className="mt-[220px] text-center">
+
+            <h2
+              className="
+text-[26px]
+tracking-[4px]
+font-light
+"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              COMPTE À REBOURS
+            </h2>
+
+            <div
+              className="
+mt-15
+mb-8
+text-[16px]
+tracking-[3px]
+"
             >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+              JUSQU&apos;À NOTRE GRAND JOUR
+            </div>
+
+          </div>
+
+
+          {/* COMPTEUR */}
+
+          <div
+            className="
+w-full
+px-10
+grid
+grid-cols-4
+text-center
+mt-[30px]
+"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+            {[
+              timeLeft.days,
+              timeLeft.hours,
+              timeLeft.minutes,
+              timeLeft.seconds,
+            ].map(
+              (value, index) => (
+
+                <div key={index}>
+
+                  <div
+                    className="
+text-[34px]
+font-light
+leading-none
+"
+                  >
+                    {String(value).padStart(2, "0")}
+                  </div>
+
+                  <div
+                    className="
+mt-4
+text-[10px]
+tracking-[2px]
+"
+                  >
+                    {
+                      [
+                        "JOURS",
+                        "HEURES",
+                        "MINUTES",
+                        "SECONDES"
+                      ][index]
+                    }
+                  </div>
+
+                </div>
+
+              )
+            )}
+
+          </div>
+
+
+          {/* TEXTE BAS */}
+
+          <div
+            className="
+mt-[70px]
+text-center
+text-[16px]
+tracking-[2px]
+leading-8
+px-8
+"
           >
-            Documentation
+            NOUS AVONS HÂTE DE PARTAGER
+            <br />
+            CE MOMENT AVEC VOUS
+          </div>
+
+        </motion.div>
+
+        <button
+          onClick={() =>
+            scrollTo("section5")
+          }
+          className="
+absolute
+bottom-8
+left-1/2
+-translate-x-1/2
+text-3xl
+text-[#b89b5e]
+animate-bounce
+"
+        >
+          ♡
+        </button>
+
+      </section>
+
+      {/* PAGE 5 */}
+
+      <section
+        id="section5"
+        className="
+relative
+h-screen
+"
+      >
+
+        <Image
+          src="/location.png"
+          alt=""
+          fill
+          className="object-cover"
+        />
+
+        <motion.div
+          initial={{
+            opacity: 0,
+            y: 40,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          transition={{
+            duration: 1,
+          }}
+          viewport={{
+            once: true,
+          }}
+          className="
+absolute
+inset-0
+flex
+flex-col
+items-center
+"
+        >
+
+          <a
+            href="https://maps.google.com/?q=Haifa+Palace+Mornag"
+            target="_blank"
+            className="
+absolute
+bottom-[205px]
+w-[220px]
+h-[60px]
+rounded-[20px]
+"
+          >
           </a>
-        </div>
-      </main>
-    </div>
+
+          <button
+            onClick={() =>
+              scrollTo("section6")
+            }
+            className="
+absolute
+bottom-8
+left-1/2
+-translate-x-1/2
+text-3xl
+text-[#b89b5e]
+animate-bounce
+"
+          >
+            ♡
+          </button>
+
+        </motion.div>
+
+      </section>
+
+    </main>
   );
 }
