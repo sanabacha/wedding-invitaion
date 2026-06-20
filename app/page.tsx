@@ -250,7 +250,7 @@ text-[#b89b5e]
 
           {/* TITRE */}
 
-          <div className="mt-[220px] text-center">
+          <div className="mt-[180px] text-center">
 
             <h2
               className="
@@ -264,7 +264,7 @@ font-light
 
             <div
               className="
-mt-15
+mt-28
 mb-8
 text-[16px]
 tracking-[3px]
